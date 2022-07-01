@@ -1,0 +1,21 @@
+version: '3.1'
+
+services:
+
+  nats:
+    image: nats-streaming:0.24.3-alpine3.15
+    restart: always
+    ports:
+      - 4222:4222
+
+  db:
+    image: postgres:14.2-alpine3.15
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./docker-data/db:/var/lib/postgresql/data
+      - ./init_db:/docker-entrypoint-initdb.d:ro
+    ports:
+      - 5432:5432
